@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'timer_screen.dart'; // Импортируйте новую страницу
+import 'timer_screen.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class IntroScreen extends StatefulWidget {
-  final IO.Socket socket; // Добавьте это поле
+  final IO.Socket socket;
 
   IntroScreen(this.socket);
 
@@ -18,15 +18,12 @@ class _IntroScreenState extends State<IntroScreen> {
   List<Map<String, String>> _introData = [
     {
       'image': 'assets/image1.png',
-      'text': 'Привет! Добро пожаловать в наше приложение.',
     },
     {
       'image': 'assets/image2.png',
-      'text': 'Здесь вы найдете множество полезных функций.',
     },
     {
       'image': 'assets/image3.png',
-      'text': 'Давайте начнем путешествие в мир наших возможностей.',
     },
   ];
 
@@ -55,22 +52,20 @@ class _IntroScreenState extends State<IntroScreen> {
             onPageChanged: _onPageChanged,
             itemBuilder: (context, index) {
               return Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(_introData[index]['image']!),
-                    fit: BoxFit.cover,
-                  ),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEFCEAD),
                 ),
-                child: Center(
-                  child: Text(
-                    _introData[index]['text']!,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image.asset(
+                      _introData[index]['image']!,
+                      fit: BoxFit.fill,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                    Container(
+                      color: Colors.transparent,
+                    ),
+                  ],
                 ),
               );
             },

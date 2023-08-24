@@ -72,116 +72,119 @@ class _TimerScreenState extends State<TimerScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Дневной лимит')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 200,
-              height: 200,
-              child: CustomPaint(
-                painter: CircleProgressPainter(
-                    remainingSeconds: calculateRemainingSeconds()),
-                child: Center(
-                  child: isCountingDown
-                      ? CountdownTimer(
-                          seconds: calculateRemainingSeconds(),
-                          onFinish: () {
-                            setState(() {
-                              isCountingDown = false;
-                            });
-                          },
-                        )
-                      : Text(
-                          formatTime(calculateRemainingSeconds()),
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
+      body: Container(
+        color: const Color(0xFFEFCEAD),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 200,
+                height: 200,
+                child: CustomPaint(
+                  painter: CircleProgressPainter(
+                      remainingSeconds: calculateRemainingSeconds()),
+                  child: Center(
+                    child: isCountingDown
+                        ? CountdownTimer(
+                            seconds: calculateRemainingSeconds(),
+                            onFinish: () {
+                              setState(() {
+                                isCountingDown = false;
+                              });
+                            },
+                          )
+                        : Text(
+                            formatTime(calculateRemainingSeconds()),
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                NumberPicker(
-                  title: 'Часы',
-                  minValue: 0,
-                  maxValue: 23,
-                  onChanged: (value) {
-                    setState(() {
-                      hours = value;
-                    });
-                  },
-                ),
-                NumberPicker(
-                  title: 'Минуты',
-                  minValue: 0,
-                  maxValue: 59,
-                  onChanged: (value) {
-                    setState(() {
-                      minutes = value;
-                    });
-                  },
-                ),
-                NumberPicker(
-                  title: 'Секунды',
-                  minValue: 0,
-                  maxValue: 59,
-                  onChanged: (value) {
-                    setState(() {
-                      seconds = value;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            AnimatedBuilder(
-              animation: _buttonScaleAnimation,
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: _buttonScaleAnimation.value,
-                  child: child,
-                );
-              },
-              child: GestureDetector(
-                onTapDown: (_) {
-                  _buttonAnimationController.forward();
-                },
-                onTapUp: (_) {
-                  _buttonAnimationController.reverse();
-                  sendTimeToServer();
-                },
-                onTapCancel: () {
-                  _buttonAnimationController.reverse();
-                },
-                child: Container(
-                  width: 200,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Colors.blue,
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  NumberPicker(
+                    title: 'Часы',
+                    minValue: 0,
+                    maxValue: 23,
+                    onChanged: (value) {
+                      setState(() {
+                        hours = value;
+                      });
+                    },
                   ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.send, color: Colors.white),
-                        SizedBox(width: 8),
-                        Text(
-                          'Send Time to Server',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ],
+                  NumberPicker(
+                    title: 'Минуты',
+                    minValue: 0,
+                    maxValue: 59,
+                    onChanged: (value) {
+                      setState(() {
+                        minutes = value;
+                      });
+                    },
+                  ),
+                  NumberPicker(
+                    title: 'Секунды',
+                    minValue: 0,
+                    maxValue: 59,
+                    onChanged: (value) {
+                      setState(() {
+                        seconds = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              AnimatedBuilder(
+                animation: _buttonScaleAnimation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _buttonScaleAnimation.value,
+                    child: child,
+                  );
+                },
+                child: GestureDetector(
+                  onTapDown: (_) {
+                    _buttonAnimationController.forward();
+                  },
+                  onTapUp: (_) {
+                    _buttonAnimationController.reverse();
+                    sendTimeToServer();
+                  },
+                  onTapCancel: () {
+                    _buttonAnimationController.reverse();
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Colors.blue,
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.send, color: Colors.white),
+                          SizedBox(width: 8),
+                          Text(
+                            'Установить таймер',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
